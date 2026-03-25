@@ -96,13 +96,13 @@
 <div class="container">
     
     <section id="schedule" class="content-section active">
-        <div class="weather-widget">
-            <span style="font-size: 2rem;">☀️</span>
-            <div>
-                <strong>Arabia Mountain Weather (Next Event):</strong><br>
-                <span>68°F & Sunny - Perfect for a hike!</span>
-            </div>
-        </div>
+       <div class="weather-widget">
+    <span class="weather-icon-span" style="font-size: 2rem;">☀️</span>
+    <div>
+        <strong>Arabia Mountain Weather (Next Event):</strong><br>
+        <span id="weatherInfo">Fetching live data...</span>
+    </div>
+</div>
         <input type="text" id="searchInput" class="search-box" placeholder="Search events, locations, or types...">
         <table id="eventTable">
             <thead>
@@ -221,7 +221,7 @@
         { s: "SCHEDULED", d: "Dec 19", t: "Hike", e: "Simpsonwood Park", l: "4511 Jones Bridge Cir, Peachtree Corners, GA", tm: "10:00 AM", n: "2.0 mi (Dirt/Flat)" }
     ];
 
-    function updateProgress() {
+function updateProgress() {
         const completed = events.filter(i => i.s === "COMPLETED").length;
         const percent = (completed / events.length) * 100;
         document.getElementById('progressFill').style.width = percent + "%";
@@ -235,13 +235,49 @@
         evt.currentTarget.classList.add('active');
     }
 
+// NEW: Function to generate and download the .ics file
+    function downloadICS(title, dateStr, location, notes) {
+        // Simple conversion for the 2026 dates in your list
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const [monthPart, dayPart] = dateStr.split(' ');
+        const monthIndex = monthNames.indexOf(monthPart) + 1;
+        const formattedMonth = monthIndex < 10 ? '0' + monthIndex : monthIndex;
+        const formattedDay = dayPart.padStart(2, '0');
+        
+        // Formats date for ICS (YYYYMMDD)
+        const dateValue = `2026${formattedMonth}${formattedDay}`;
+
+        const icsContent = [
+            "BEGIN:VCALENDAR",
+            "VERSION:2.0",
+            "BEGIN:VEVENT",
+            `SUMMARY:${title}`,
+            `DTSTART;VALUE=DATE:${dateValue}`,
+            `LOCATION:${location}`,
+            `DESCRIPTION:${notes}`,
+            "END:VEVENT",
+            "END:VCALENDAR"
+        ].join("\r\n");
+
+        const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.setAttribute("download", `${title.replace(/\s+/g, '_')}.ics`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     function render(data) {
         document.getElementById('tableBody').innerHTML = data.map(i => {
             const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(i.l)}`;
             return `
             <tr>
                 <td data-label="Status"><span class="status-pill status-${i.s}">${i.s}</span></td>
-                <td data-label="Date">${i.d}<button class="cal-btn">➕ Calendar</button></td>
+                <td data-label="Date">
+    ${i.d}
+    <button class="cal-btn" onclick="downloadICS('${i.e}', '${i.d}', '${i.l}', '${i.n}')">➕ Calendar</button>
+</td>
                 <td data-label="Type">${i.t}</td>
                 <td data-label="Event"><strong>${i.e}</strong></td>
                 <td data-label="Location"><a href="${mapUrl}" target="_blank" class="map-link">📍 ${i.l}</a></td>
@@ -251,6 +287,33 @@
         }).join('');
     }
 
+// 3. NEW WEATHER API LOGIC (Open-Meteo)
+    async function fetchWeather() {
+        const lat = 33.66; // Arabia Mountain Latitude
+        const lon = -84.11; // Arabia Mountain Longitude
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,weather_code&temperature_unit=fahrenheit`;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            const current = data.current;
+
+            // Simple WMO weather code mapping
+            let condition = "Clear Skies";
+            let icon = "☀️";
+            if (current.weather_code > 0) { condition = "Partly Cloudy"; icon = "⛅"; }
+            if (current.weather_code >= 45) { condition = "Foggy"; icon = "🌫️"; }
+            if (current.weather_code >= 51) { condition = "Rainy"; icon = "🌧️"; }
+
+            document.getElementById('weatherInfo').innerHTML = 
+                `${Math.round(current.temperature_2m)}°F (Feels like ${Math.round(current.apparent_temperature)}°F) - ${condition}`;
+            document.querySelector('.weather-icon-span').innerText = icon;
+
+        } catch (error) {
+            document.getElementById('weatherInfo').innerText = "Weather currently unavailable";
+        }
+    }
+
     document.getElementById('searchInput').addEventListener('input', (e) => {
         const val = e.target.value.toLowerCase();
         render(events.filter(i => Object.values(i).some(v => v.toString().toLowerCase().includes(val))));
@@ -258,6 +321,7 @@
 
     render(events);
     updateProgress();
+    fetchWeather();
 </script>
 </body>
 </html>
