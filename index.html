@@ -185,6 +185,8 @@
         <span id="weatherInfo">Fetching live data...</span>
     </div>
 </div>
+<div id="nextEventHero" style="margin-bottom: 25px;">
+    </div>
         <input type="text" id="searchInput" class="search-box" placeholder="Search events, locations, or types...">
         <table id="eventTable">
             <thead>
@@ -397,9 +399,6 @@ function updateProgress() {
         render(events.filter(i => Object.values(i).some(v => v.toString().toLowerCase().includes(val))));
     });
 
-    render(events);
-    updateProgress();
-    fetchWeather();
 
 // Show button when user scrolls down 300px from the top
 window.onscroll = function() {
@@ -442,6 +441,71 @@ function renderUpdates() {
 
 // 3. Call this in your "Initialize Site" section at the very bottom
 renderUpdates();
+
+// 1. Helper to turn "Mar 28" into a real date the computer can sort
+function parseDate(dateStr) {
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const [monthPart, dayPart] = dateStr.split(' ');
+    const monthIndex = monthNames.indexOf(monthPart);
+    const day = parseInt(dayPart) || 1; // Default to 1st if TBD
+    return new Date(2026, monthIndex, day);
+}
+
+// 2. The logic to find and show the Next Event
+function displayNextEvent() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Filter out: Completed, Cancelled, Postponed, and TBD dates
+    const upcoming = events
+        .filter(ev => 
+            ev.s !== "COMPLETED" && 
+            ev.s !== "CANCELLED" && 
+            ev.s !== "POSTPONED" && 
+            ev.d.indexOf('TBD') === -1
+        )
+        // Sort the remaining events to find the absolute closest date
+        .sort((a, b) => parseDate(a.d) - parseDate(b.d));
+
+    const next = upcoming[0];
+    const heroContainer = document.getElementById('nextEventHero');
+
+    if (next) {
+        heroContainer.innerHTML = `
+            <div style="background: var(--primary); color: white; padding: 25px; border-radius: 12px; border-left: 8px solid var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <span style="text-transform: uppercase; font-size: 11px; letter-spacing: 2px; background: var(--accent); color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">📍 UP NEXT</span>
+                        <h2 style="margin: 15px 0 5px 0; font-size: 1.8rem;">${next.e}</h2>
+                        <p style="margin: 0; font-size: 1.2rem; font-weight: 500;">🗓️ ${next.d} at ${next.tm}</p>
+                        <p style="margin: 12px 0 0 0; font-size: 0.95rem; opacity: 0.85; line-height: 1.4;">${next.l}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    } else {
+        // If no events are left in the season or all are postponed/cancelled
+        heroContainer.innerHTML = `
+            <div style="background: #f1f2f6; color: #636e72; padding: 20px; border-radius: 12px; text-align: center; border: 2px dashed #ccc;">
+                <p style="margin: 0; font-weight: bold;">🏁 No active events currently scheduled.</p>
+            </div>
+        `;
+    }
+}
+
+// 3. Update your render function to SORT the table automatically
+function renderSortedTable(data) {
+    // This ensures the table is always chronological, even if you add events out of order
+    const sortedData = [...data].sort((a, b) => parseDate(a.d) - parseDate(b.d));
+    render(sortedData); // Calls your existing render function
+}
+
+// Change your initial calls to this:
+renderSortedTable(events); // Table is now sorted
+displayNextEvent();        // Hero card is populated
+updateProgress();
+renderUpdates();
+fetchWeather();
 </script>
 
 <button id="backToTop" onclick="scrollToTop()" title="Go to top">↑</button>
