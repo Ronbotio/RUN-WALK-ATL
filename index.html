@@ -18,29 +18,33 @@
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: #f4f7f6; color: var(--primary); }
         header { background: var(--primary); color: white; padding: 30px 20px; text-align: center; }
         
-        .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
-        .tab-btn { padding: 10px 20px; border: none; background: rgba(255,255,255,0.1); color: white; cursor: pointer; border-radius: 5px; font-weight: bold; transition: 0.3s; }
+        .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        .tab-btn { padding: 12px 24px; border: none; background: rgba(255,255,255,0.1); color: white; cursor: pointer; border-radius: 5px; font-weight: bold; transition: 0.3s; }
         .tab-btn.active { background: var(--accent); }
 
         .container { max-width: 1200px; margin: 20px auto 50px; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .content-section { display: none; }
         .content-section.active { display: block; }
 
-        /* Updates Styles */
-        .update-item { border-left: 4px solid var(--accent); padding: 15px; margin-bottom: 15px; background: #f9f9f9; }
-        .update-date { font-weight: bold; color: var(--accent); display: block; margin-bottom: 5px; }
+        .update-banner { background: #f8f9fa; border-left: 5px solid var(--accent); padding: 20px; border-radius: 4px; }
+        .update-list { list-style: none; padding: 0; }
+        .update-list li { padding: 10px 0; border-bottom: 1px dashed #ddd; display: flex; align-items: flex-start; }
+        .update-list li:before { content: "⚪"; margin-right: 10px; }
 
-        /* What to Expect Styles */
-        .expect-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .expect-card { padding: 20px; border: 1px solid #eee; border-radius: 8px; }
-        .expect-card h3 { color: var(--accent); margin-top: 0; }
+        .intro-text { font-size: 1.1rem; line-height: 1.6; color: #444; margin-bottom: 25px; }
+        .expect-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .expect-card { padding: 25px; background: #fff; border: 1px solid #eee; border-radius: 10px; }
+        .expect-card h3 { color: var(--accent); margin-top: 0; display: flex; align-items: center; gap: 8px; }
+        .action-item { background: #fff9db; padding: 10px; border-radius: 5px; border: 1px solid #f59f00; font-weight: bold; margin-top: 10px; }
 
-        /* Table Styles */
         .search-box { width: 100%; padding: 15px; margin-bottom: 20px; border: 2px solid #eee; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
         table { width: 100%; border-collapse: collapse; }
         th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid #eee; font-size: 13px; text-transform: uppercase; }
         td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; vertical-align: top; }
         
+        .map-link { color: #0984e3; text-decoration: none; font-weight: 500; }
+        .map-link:hover { text-decoration: underline; }
+
         .status-pill { padding: 4px 10px; border-radius: 15px; font-size: 11px; font-weight: bold; display: inline-block; }
         .status-COMPLETED { background: var(--completed); color: var(--completed-text); }
         .status-POSTPONED { background: var(--postponed); color: var(--postponed-text); }
@@ -66,9 +70,9 @@
     <a href="https://chat.whatsapp.com/JFtmnTjtKkeCJiJJ7lO6Hl" class="whatsapp-btn" target="_blank">Join WhatsApp Group</a>
     
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="openTab('schedule')">Season Schedule</button>
-        <button class="tab-btn" onclick="openTab('updates')">Season Updates</button>
-        <button class="tab-btn" onclick="openTab('expect')">What to Expect</button>
+        <button class="tab-btn active" onclick="openTab(event, 'schedule')">The Schedule</button>
+        <button class="tab-btn" onclick="openTab(event, 'updates')">Latest Season Updates</button>
+        <button class="tab-btn" onclick="openTab(event, 'expect')">🌟 What to Expect</button>
     </div>
 </header>
 
@@ -93,102 +97,116 @@
     </section>
 
     <section id="updates" class="content-section">
-        <h2>Latest Season Updates</h2>
-        <div class="update-item">
-            <span class="update-date">March 25, 2026</span>
-            <p><strong>Upcoming Hike:</strong> Arabia Mountain Hike is confirmed for March 28th at 10:00 AM. Meet at 3787 Klondike Rd. Wear sturdy shoes!</p>
-        </div>
-        <div class="update-item">
-            <span class="update-date">March 15, 2026</span>
-            <p><strong>5K Notice:</strong> April 18th Northside BeltLine 5K is officially Sold Out. If you didn't get a bib, you are still welcome to join us for the walk/meetup, but you won't receive a medal or official time.</p>
-        </div>
-        <div class="update-item">
-            <span class="update-date">February 20, 2026</span>
-            <p><strong>Rescheduling:</strong> Due to trail maintenance, the Sweetwater Creek Hike has been moved to July 18th.</p>
+        <div class="update-banner">
+            <h2>📣 Latest Season Updates (March 15th)</h2>
+            <ul class="update-list">
+                <li><strong>March 28th:</strong> Arabia Mountain (Hike) - <strong>SCHEDULED</strong></li>
+                <li><strong>April 11th:</strong> McDaniel Farm Park (Hike) - <strong>SCHEDULED</strong></li>
+                <li><strong>April 18th:</strong> Northside Beltline (5K) - <strong>SCHEDULED</strong> (Registration is officially closed and both races are sold out. We will still arrive and walk)</li>
+                <li><strong>April 25th:</strong> Lemonade Days (5K) - <strong>SCHEDULED</strong> (Register Link in the table)</li>
+            </ul>
         </div>
     </section>
 
     <section id="expect" class="content-section">
-        <h2>What to Expect</h2>
-        <p>Our goal is consistency and community. Here is how our events typically run:</p>
+        <div class="intro-text">
+            This schedule is designed to keep us moving, healthy, and consistent throughout the year. We have curated a mix of official races and relaxed nature walks to ensure there is something for everyone, regardless of fitness level.
+        </div>
         <div class="expect-grid">
             <div class="expect-card">
-                <h3>🕒 Arrival</h3>
-                <p>Please arrive 15 minutes early for hikes to find parking and the group. For 5K races, follow the race director's instructions (usually 45-60 mins early).</p>
+                <h3>🏁 Official Races (5Ks)</h3>
+                <p>We have selected one major race almost every month. These are fun, high-energy events.</p>
+                <div class="action-item">Action Item: Please use the provided links to register early before prices go up!</div>
             </div>
             <div class="expect-card">
-                <h3>👟 Gear</h3>
-                <p>Comfortable walking or running shoes are required. For hikes, "Dirt/Gravel" paths may be uneven. "Paved" paths are stroller and wheelchair friendly.</p>
+                <h3>🌲 Group Hikes (Nature Walks)</h3>
+                <p>In the weeks between races, we meet for self-organized group hikes.</p>
+                <ul>
+                    <li><strong>Beginner Distance:</strong> Hikes are kept between 1.5 to 5 miles.</li>
+                    <li><strong>No "Hiking" Experience Needed:</strong> If you can walk a 5K, you can do these hikes!</li>
+                </ul>
             </div>
             <div class="expect-card">
-                <h3>💧 Hydration</h3>
-                <p>Always bring your own water. Some race events provide water stations, but most of our community hikes do not.</p>
+                <h3>⏰ Timing</h3>
+                <p><strong>Hikes:</strong> Consistently scheduled for Saturdays at 10:00 AM.</p>
+                <p><strong>Races:</strong> Times vary (usually early Saturday or Sunday mornings).</p>
             </div>
             <div class="expect-card">
-                <h3>🤝 Community</h3>
-                <p>We move at a conversational pace. No one is left behind during hikes. We finish together!</p>
+                <h3>📍 Logistics</h3>
+                <p>Addresses for all locations are included in the table. Please check the group chat prior to "Hike Saturdays" for weather updates.</p>
+            </div>
+            <div class="expect-card">
+                <h3>📖 The "Gospel in a Nutshell" </h3>
+                <ul>
+                    <li><strong>The Sacrifice:</strong> Jesus Christ died for our sins.</li>
+                    <li><strong>The Proof:</strong> He was buried.</li>
+                    <li><strong>The Victory:</strong> He rose again on the third day.</li>
+                    <li><strong>The Promise:</strong> Salvation for anyone who believes.</li>
+                </ul>
             </div>
         </div>
     </section>
-
 </div>
 
 <script>
     const events = [
-        { s: "COMPLETED", d: "Jan 19", t: "5K", e: "MLK Day Drum Run", l: "Doraville", tm: "N/A", n: "Completed" },
-        { s: "POSTPONED", d: "Jan 31", t: "Hike", e: "Roswell Riverwalk", l: "Riverside Park, 575 Riverside Rd, Roswell", tm: "10:00 AM", n: "2-3 mi (Paved) Flat, follows river." },
-        { s: "CANCELLED", d: "Feb 1", t: "5K", e: "Hot Chocolate Run", l: "Centennial Olympic Park, Atlanta", tm: "8:00 AM", n: "Closed" },
-        { s: "CANCELLED", d: "Feb 7", t: "10K", e: "Westside BeltLine", l: "Lee + White District, Atlanta", tm: "8:00 AM", n: "10K Distance" },
-        { s: "POSTPONED", d: "Feb 21", t: "Hike", e: "Sweetwater Creek", l: "Sweetwater Creek State Park, Lithia Springs", tm: "10:00 AM", n: "2.0 mi (Dirt/Gravel) Mill ruins." },
-        { s: "COMPLETED", d: "Feb 28", t: "Hike", e: "Roswell Riverwalk", l: "Riverside Park, 575 Riverside Rd, Roswell", tm: "10:00 AM", n: "2-3 mi (Paved) Flat, follows river." },
-        { s: "COMPLETED", d: "Mar 15", t: "5K", e: "Hunger Walk Run", l: "Home Depot Backyard, Atlanta", tm: "2:00 PM", n: "Completed" },
-        { s: "COMPLETED", d: "Mar 21", t: "Hike", e: "Stone Mountain Walk Up", l: "1000 Robert E. Lee Blvd, Stone Mountain", tm: "9AM-12PM", n: "Completed" },
-        { s: "SCHEDULED", d: "Mar 28", t: "Hike", e: "Arabia Mtn (PATH)", l: "3787 Klondike Rd, Lithonia", tm: "10:00 AM", n: "2.0 mi (Paved) Stay on PATH." },
+        { s: "COMPLETED", d: "Jan 19", t: "5K", e: "MLK Day Drum Run", l: "Doraville, GA", tm: "N/A", n: "Completed" },
+        { s: "POSTPONED", d: "Jan 31", t: "Hike", e: "Roswell Riverwalk", l: "Riverside Park, 575 Riverside Rd, Roswell, GA", tm: "10:00 AM", n: "2-3 mi (Paved) Flat, follows river." },
+        { s: "CANCELLED", d: "Feb 1", t: "5K", e: "Hot Chocolate Run", l: "Centennial Olympic Park, 265 Park Ave W NW, Atlanta, GA", tm: "8:00 AM", n: "Closed" },
+        { s: "CANCELLED", d: "Feb 7", t: "10K", e: "Westside BeltLine", l: "Lee + White District, 1020 White St SW, Atlanta, GA", tm: "8:00 AM", n: "10K Distance" },
+        { s: "POSTPONED", d: "Feb 21", t: "Hike", e: "Sweetwater Creek", l: "Sweetwater Creek State Park, 1750 Mt Vernon Rd, Lithia Springs, GA", tm: "10:00 AM", n: "2.0 mi (Dirt/Gravel) Mill ruins." },
+        { s: "COMPLETED", d: "Feb 28", t: "Hike", e: "Roswell Riverwalk", l: "Riverside Park, 575 Riverside Rd, Roswell, GA", tm: "10:00 AM", n: "2-3 mi (Paved) Flat, follows river." },
+        { s: "COMPLETED", d: "Mar 15", t: "5K", e: "Hunger Walk Run", l: "Home Depot Backyard, 1 Backyard Way, Atlanta, GA", tm: "2:00 PM", n: "Completed" },
+        { s: "COMPLETED", d: "Mar 21", t: "Hike", e: "Stone Mountain Walk Up", l: "1000 Robert E. Lee Blvd, Stone Mountain, GA", tm: "9AM-12PM", n: "Completed" },
+        { s: "SCHEDULED", d: "Mar 28", t: "Hike", e: "Arabia Mtn (PATH)", l: "3787 Klondike Rd, Lithonia, GA", tm: "10:00 AM", n: "2.0 mi (Paved) Stay on PATH." },
         { s: "SCHEDULED", d: "Apr 11", t: "Hike", e: "McDaniel Farm Park", l: "3251 McDaniel Rd, Duluth, GA", tm: "10:00 AM", n: "2.5 mi (Paved) Historic farm." },
-        { s: "SCHEDULED", d: "Apr 18", t: "5K", e: "Northside BeltLine", l: "290 Colonial Homes Dr NW, Atlanta", tm: "8:00 AM", n: "Reg Closed. Join us for the walk." },
-        { s: "SCHEDULED", d: "Apr 25", t: "5K", e: "Lemonade Days 5K", l: "Brook Run Park, Dunwoody", tm: "8:00 AM", n: "179 spots left." },
-        { s: "SCHEDULED", d: "May 9", t: "5K", e: "Bubble Run 5K", l: "Coolray Field, Lawrenceville", tm: "8:00 AM", n: "Registration Open." },
-        { s: "SCHEDULED", d: "May 23", t: "Hike", e: "Murphey Candler Loop", l: "4074 Candler Lake W NE, Brookhaven", tm: "10:00 AM", n: "2.0 mi (Dirt/Path) Gentle loop." },
-        { s: "SCHEDULED", d: "Jun 6", t: "5K", e: "Feathers 5K", l: "Oglethorpe University, Brookhaven", tm: "8:00 AM", n: "Registration Open." },
-        { s: "SCHEDULED", d: "Jun 20", t: "Hike", e: "Garrard Landing", l: "8000 Holcomb Bridge Rd, Roswell", tm: "10:00 AM", n: "1.5 mi (Gravel/Dirt) Flat woods." },
-        { s: "SCHEDULED", d: "Jul 11", t: "5K", e: "Run, Walk & Stroller", l: "135 Riverside Pkwy, Austell", tm: "7:15 AM", n: "Registration Open." },
-        { s: "RESCHEDULED", d: "Jul 18", t: "Hike", e: "Sweetwater Creek", l: "1750 Mt Vernon Rd, Lithia Springs", tm: "10:00 AM", n: "2.0 mi (Dirt/Gravel) Mill ruins." },
-        { s: "SCHEDULED", d: "Jul 25", t: "Hike", e: "Cochran Shoals", l: "100 Columns Dr SE, Marietta", tm: "10:00 AM", n: "3.0 mi (Gravel) Flat path along river." },
-        { s: "SCHEDULED", d: "Aug 1", t: "5K", e: "Southside BeltLine", l: "1039 Grant St SE, Atlanta", tm: "8:00 AM", n: "Registration Open." },
-        { s: "SCHEDULED", d: "Aug 15", t: "Hike", e: "Tribble Mill Loop", l: "2125 Tribble Mill Pkwy, Lawrenceville", tm: "10:00 AM", n: "2.8 mi (Paved) Loop around lake." },
-        { s: "SCHEDULED", d: "Sep 12", t: "Hike", e: "Mason Mill Park", l: "1340 McConnell Dr, Decatur", tm: "10:00 AM", n: "2.0 mi (Boardwalk) Flat boardwalks." },
+        { s: "SCHEDULED", d: "Apr 18", t: "5K", e: "Northside BeltLine", l: "290 Colonial Homes Dr NW, Atlanta, GA", tm: "8:00 AM", n: "Reg Closed. Join us for the walk." },
+        { s: "SCHEDULED", d: "Apr 25", t: "5K", e: "Lemonade Days 5K", l: "Brook Run Park, 4770 N Peachtree Rd, Dunwoody, GA", tm: "8:00 AM", n: "179 spots left." },
+        { s: "SCHEDULED", d: "May 9", t: "5K", e: "Bubble Run 5K", l: "Coolray Field, 2500 Buford Dr, Lawrenceville, GA", tm: "8:00 AM", n: "Registration Open." },
+        { s: "SCHEDULED", d: "May 23", t: "Hike", e: "Murphey Candler Loop", l: "4074 Candler Lake W NE, Brookhaven, GA", tm: "10:00 AM", n: "2.0 mi (Dirt/Path) Gentle loop." },
+        { s: "SCHEDULED", d: "Jun 6", t: "5K", e: "Feathers 5K", l: "Oglethorpe University, 4484 Peachtree Rd NE, Brookhaven, GA", tm: "8:00 AM", n: "Registration Open." },
+        { s: "SCHEDULED", d: "Jun 20", t: "Hike", e: "Garrard Landing", l: "8000 Holcomb Bridge Rd, Roswell, GA", tm: "10:00 AM", n: "1.5 mi (Gravel/Dirt) Flat woods." },
+        { s: "SCHEDULED", d: "Jul 11", t: "5K", e: "Run, Walk & Stroller", l: "135 Riverside Pkwy, Austell, GA", tm: "7:15 AM", n: "Registration Open." },
+        { s: "RESCHEDULED", d: "Jul 18", t: "Hike", e: "Sweetwater Creek", l: "1750 Mt Vernon Rd, Lithia Springs, GA", tm: "10:00 AM", n: "2.0 mi (Dirt/Gravel) Mill ruins." },
+        { s: "SCHEDULED", d: "Jul 25", t: "Hike", e: "Cochran Shoals", l: "100 Columns Dr SE, Marietta, GA", tm: "10:00 AM", n: "3.0 mi (Gravel) Flat path along river." },
+        { s: "SCHEDULED", d: "Aug 1", t: "5K", e: "Southside BeltLine", l: "1039 Grant St SE, Atlanta, GA", tm: "8:00 AM", n: "Registration Open." },
+        { s: "SCHEDULED", d: "Aug 15", t: "Hike", e: "Tribble Mill Loop", l: "2125 Tribble Mill Pkwy, Lawrenceville, GA", tm: "10:00 AM", n: "2.8 mi (Paved) Loop around lake." },
+        { s: "SCHEDULED", d: "Sep 12", t: "Hike", e: "Mason Mill Park", l: "1340 McConnell Dr, Decatur, GA", tm: "10:00 AM", n: "2.0 mi (Boardwalk) Flat boardwalks." },
         { s: "SCHEDULED", d: "Sep TBD", t: "5K", e: "Kaiser Permanente", l: "Atlanta, GA", tm: "TBD", n: "Reg Not Open Yet" },
         { s: "SCHEDULED", d: "Oct 3", t: "Hike", e: "Little Mulberry Park", l: "3855 Fence Rd, Auburn, GA", tm: "10:00 AM", n: "2.2 mi (Paved) Flat loop." },
-        { s: "SCHEDULED", d: "Oct TBD", t: "5K", e: "Paint Gwinnett Pink", l: "Lawrenceville, GA", tm: "TBD", n: "Reg Not Open Yet" },
-        { s: "SCHEDULED", d: "Oct TBD", t: "5K", e: "End Alzheimer's", l: "Piedmont Park, Atlanta", tm: "TBD", n: "Reg Not Open Yet" },
-        { s: "SCHEDULED", d: "Nov 14", t: "Hike", e: "Alexander Lake Loop", l: "4965 Flat Bridge Rd SW, Stockbridge", tm: "10:00 AM", n: "1.5 mi (Paved) Flat lake loop." },
-        { s: "SCHEDULED", d: "Dec 5", t: "5K", e: "Eastside BeltLine", l: "112 Krog St NE, Atlanta", tm: "8:00 AM", n: "Registration Open." },
-        { s: "SCHEDULED", d: "Dec 19", t: "Hike", e: "Simpsonwood Park", l: "Peachtree Corners", tm: "10:00 AM", n: "2.0 mi (Dirt/Flat)" }
+        { s: "SCHEDULED", d: "Oct TBD", t: "5K", e: "Paint Gwinnett Pink", l: "Coolray Field, Lawrenceville, GA", tm: "TBD", n: "Reg Not Open Yet" },
+        { s: "SCHEDULED", d: "Oct TBD", t: "5K", e: "End Alzheimer's", l: "Piedmont Park, Atlanta, GA", tm: "TBD", n: "Reg Not Open Yet" },
+        { s: "SCHEDULED", d: "Nov 14", t: "Hike", e: "Alexander Lake Loop", l: "4965 Flat Bridge Rd SW, Stockbridge, GA", tm: "10:00 AM", n: "1.5 mi (Paved) Flat lake loop." },
+        { s: "SCHEDULED", d: "Dec 5", t: "5K", e: "Eastside BeltLine", l: "112 Krog St NE, Atlanta, GA", tm: "8:00 AM", n: "Registration Open." },
+        { s: "SCHEDULED", d: "Dec 19", t: "Hike", e: "Simpsonwood Park", l: "4511 Jones Bridge Cir, Peachtree Corners, GA", tm: "10:00 AM", n: "2.0 mi (Dirt/Flat)" }
     ];
 
-    function openTab(tabId) {
+    function openTab(evt, tabId) {
         document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
+        evt.currentTarget.classList.add('active');
     }
 
     function render(data) {
-        document.getElementById('tableBody').innerHTML = data.map(i => `
+        document.getElementById('tableBody').innerHTML = data.map(i => {
+            const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(i.l)}`;
+            return `
             <tr>
                 <td data-label="Status"><span class="status-pill status-${i.s}">${i.s}</span></td>
                 <td data-label="Date">${i.d}</td>
                 <td data-label="Type">${i.t}</td>
                 <td data-label="Event"><strong>${i.e}</strong></td>
-                <td data-label="Location">${i.l}</td>
+                <td data-label="Location"><a href="${mapUrl}" target="_blank" class="map-link">📍 ${i.l}</a></td>
                 <td data-label="Time">${i.tm}</td>
                 <td data-label="Notes">${i.n}</td>
-            </tr>`).join('');
+            </tr>`;
+        }).join('');
     }
 
     document.getElementById('searchInput').addEventListener('input', (e) => {
         const val = e.target.value.toLowerCase();
-        render(events.filter(i => Object.values(i).some(v => v.toLowerCase().includes(val))));
+        render(events.filter(i => Object.values(i).some(v => v.toString().toLowerCase().includes(val))));
     });
 
     render(events);
