@@ -114,6 +114,45 @@
     background-color: var(--primary); /* Changes color when touched/hovered */
 }
 
+/* Streamlined Update Cards */
+.update-card {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border-left: 4px solid var(--accent);
+    line-height: 1.6; /* Prevents words from running together */
+}
+
+.update-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap; /* Prevents date and title from colliding on phones */
+}
+
+.update-date {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #636e72;
+    background: #f1f2f6;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.update-text {
+    margin: 0;
+    color: #2d3436;
+    word-wrap: break-word; /* Safety for long words on mobile */
+}
+
+@media (max-width: 600px) {
+    .update-card { padding: 12px; }
+    .update-header { flex-direction: column; align-items: flex-start; gap: 5px; }
+}
+
 
     </style>
 </head>
@@ -164,16 +203,12 @@
     </section>
 
     <section id="updates" class="content-section">
-        <div class="update-banner">
-            <h2>📣 Latest Season Updates (March 15th)</h2>
-            <ul class="update-list">
-                <li><strong>March 28th:</strong> Arabia Mountain (Hike) - <strong>SCHEDULED</strong></li>
-                <li><strong>April 11th:</strong> McDaniel Farm Park (Hike) - <strong>SCHEDULED</strong></li>
-                <li><strong>April 18th:</strong> Northside Beltline (5K) - <strong>SCHEDULED</strong> (Registration is officially closed and both races are sold out. We will still arrive and walk)</li>
-                <li><strong>April 25th:</strong> Lemonade Days (5K) - <strong>SCHEDULED</strong> (Register Link in the table)</li>
-            </ul>
-        </div>
-    </section>
+    <div class="update-banner">
+        <h2 style="margin-top:0;">📣 Latest Season Updates</h2>
+        <div id="updateListContainer">
+            </div>
+    </div>
+</section>
 
     <section id="expect" class="content-section">
         <div class="intro-text">
@@ -383,7 +418,33 @@ function scrollToTop() {
         behavior: 'smooth' /* This creates the nice sliding effect */
     });
 }
+
+
+// 1. The Update Data List (Add new updates to the TOP of this list)
+const seasonUpdates = [
+    { date: "Mar 25", text: "Arabia Mountain Hike confirmed for Mar 28th! Meet at the trailhead at 10:00 AM sharp." },
+    { date: "Mar 15", text: "April 18th Northside Beltline 5K is SOLD OUT. We will still meet up to walk as a group!" },
+    { date: "Mar 01", text: "New 'Memories' tab added to the site! Send your group photos to the WhatsApp chat." }
+];
+
+// 2. The Function to Build the Page
+function renderUpdates() {
+    const container = document.getElementById('updateListContainer');
+    container.innerHTML = seasonUpdates.map(upd => `
+        <div class="update-card">
+            <div class="update-header">
+                <span class="update-date">${upd.date}</span>
+            </div>
+            <p class="update-text">${upd.text}</p>
+        </div>
+    `).join('');
+}
+
+// 3. Call this in your "Initialize Site" section at the very bottom
+renderUpdates();
 </script>
+
 <button id="backToTop" onclick="scrollToTop()" title="Go to top">↑</button>
+
 </body>
 </html>
