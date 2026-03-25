@@ -456,7 +456,7 @@ function displayNextEvent() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Filter out: Completed, Cancelled, Postponed, and TBD dates
+    // Filter logic: Ignore Completed, Cancelled, Postponed, and TBD dates
     const upcoming = events
         .filter(ev => 
             ev.s !== "COMPLETED" && 
@@ -464,27 +464,33 @@ function displayNextEvent() {
             ev.s !== "POSTPONED" && 
             ev.d.indexOf('TBD') === -1
         )
-        // Sort the remaining events to find the absolute closest date
         .sort((a, b) => parseDate(a.d) - parseDate(b.d));
 
     const next = upcoming[0];
     const heroContainer = document.getElementById('nextEventHero');
 
     if (next) {
+        // Generate the Google Maps URL
+        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(next.l)}`;
+
         heroContainer.innerHTML = `
-            <div style="background: var(--primary); color: white; padding: 25px; border-radius: 12px; border-left: 8px solid var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div style="background: var(--primary); color: white; padding: 25px; border-radius: 12px; border-left: 8px solid var(--accent); box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; flex-direction: column; gap: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
                     <div>
-                        <span style="text-transform: uppercase; font-size: 11px; letter-spacing: 2px; background: var(--accent); color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">📍 UP NEXT</span>
+                        <span style="text-transform: uppercase; font-size: 11px; letter-spacing: 2px; background: var(--accent); color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold;">📍 UP NEXT</span>
                         <h2 style="margin: 15px 0 5px 0; font-size: 1.8rem;">${next.e}</h2>
                         <p style="margin: 0; font-size: 1.2rem; font-weight: 500;">🗓️ ${next.d} at ${next.tm}</p>
-                        <p style="margin: 12px 0 0 0; font-size: 0.95rem; opacity: 0.85; line-height: 1.4;">${next.l}</p>
                     </div>
+                    <a href="${mapUrl}" target="_blank" style="background: white; color: var(--primary); padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); flex-shrink: 0;">
+                        <span>🚗 Get Directions</span>
+                    </a>
+                </div>
+                <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                    <p style="margin: 0; font-size: 0.95rem; opacity: 0.85; line-height: 1.4;"><strong>Location:</strong> ${next.l}</p>
                 </div>
             </div>
         `;
     } else {
-        // If no events are left in the season or all are postponed/cancelled
         heroContainer.innerHTML = `
             <div style="background: #f1f2f6; color: #636e72; padding: 20px; border-radius: 12px; text-align: center; border: 2px dashed #ccc;">
                 <p style="margin: 0; font-weight: bold;">🏁 No active events currently scheduled.</p>
