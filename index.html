@@ -6,11 +6,14 @@
     <title>Run/Walk ATL | 2026 Season</title>
     <style>
         :root {
+            /* Theme Colors - Midnight Blue to Black */
             --grad-start: #2c3e50;
             --grad-end: #000000;
             --primary: #2d3436;
             --accent: #00b894;
             --bg-light: #f4f7f6;
+            
+            /* Status Colors */
             --completed: #d1f2eb; --completed-text: #0b5345;
             --postponed: #fcf3cf; --postponed-text: #7d6608;
             --cancelled: #fadbd8; --cancelled-text: #7b241c;
@@ -20,6 +23,7 @@
 
         body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg-light); color: var(--primary); padding-bottom: 60px; }
         
+        /* Header with Midnight Gradient */
         header { 
             background: linear-gradient(135deg, var(--grad-start) 0%, var(--grad-end) 100%); 
             color: white; 
@@ -44,42 +48,132 @@
         }
 
         .site-subtitle {
-            display: block; font-size: 1rem; letter-spacing: 4px; color: var(--accent);
-            text-transform: uppercase; margin-top: 8px; font-weight: bold; opacity: 0.9;
+            display: block;
+            font-size: 1rem;
+            letter-spacing: 4px;
+            color: var(--accent);
+            text-transform: uppercase;
+            margin-top: 8px;
+            font-weight: bold;
+            opacity: 0.9;
         }
         
+        /* Navigation Tabs with Glassmorphism */
         .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-top: 30px; flex-wrap: wrap; }
         .tab-btn { 
-            padding: 12px 24px; border: 1px solid rgba(255, 255, 255, 0.2); 
-            background: rgba(255, 255, 255, 0.1); color: white; cursor: pointer; 
-            border-radius: 5px; font-weight: bold; transition: 0.3s; backdrop-filter: blur(5px);
+            padding: 12px 24px; 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            background: rgba(255, 255, 255, 0.1); 
+            color: white; 
+            cursor: pointer; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            transition: 0.3s; 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
         .tab-btn.active { background: var(--accent); border-color: var(--accent); }
 
+        /* Pace Badges */
+        .pace-badge {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        .pace-beginner { background: #d1f2eb; color: #0b5345; }
+        .pace-moderate { background: #fcf3cf; color: #7d6608; }
+        .pace-active { background: #fadbd8; color: #7b241c; }
+
+        /* Progress Bar */
         .progress-container { max-width: 1200px; margin: 20px auto; padding: 0 30px; }
         .progress-bg { background: #dfe6e9; height: 12px; border-radius: 6px; overflow: hidden; }
         .progress-fill { background: var(--accent); height: 100%; width: 0%; transition: width 1s ease-in-out; }
         .progress-text { font-size: 0.85rem; color: #636e72; margin-top: 5px; text-align: right; font-weight: bold; }
 
+        /* Layout */
         .container { max-width: 1200px; margin: 20px auto 50px; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .content-section { display: none; }
         .content-section.active { display: block; }
 
+        /* Elements */
         .weather-widget { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; border: 1px solid #eee; }
+        
+        /* Primary CTA Buttons */
+        .whatsapp-btn-main { 
+            background: #25D366; 
+            color: white; 
+            padding: 18px 45px; 
+            text-decoration: none; 
+            border-radius: 50px; 
+            display: inline-block; 
+            font-weight: 800;
+            font-size: 1.3rem;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2);
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .whatsapp-btn-main:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 15px 25px rgba(37, 211, 102, 0.3);
+            filter: brightness(1.1);
+        }
+
+        .invite-btn-secondary {
+            background: linear-gradient(135deg, var(--grad-start) 0%, var(--grad-end) 100%);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .invite-btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 62, 80, 0.4);
+            border-color: var(--accent);
+        }
+
         header .whatsapp-btn { 
-            background: #25D366; color: white; padding: 12px 25px; text-decoration: none; 
-            border-radius: 30px; display: inline-block; margin-top: 25px; font-weight: bold;
-            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2); transition: 0.2s;
+            background: #25D366; 
+            color: white; 
+            padding: 12px 25px; 
+            text-decoration: none; 
+            border-radius: 30px; 
+            display: inline-block; 
+            margin-top: 25px; 
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2);
+            transition: 0.2s;
         }
         header .whatsapp-btn:hover { transform: translateY(-2px); }
 
         .search-box { width: 100%; padding: 15px; margin-bottom: 20px; border: 2px solid #eee; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
+        
+        /* Table Styles with Row Glow */
         table { width: 100%; border-collapse: collapse; }
         th { text-align: left; padding: 12px; background: #f8f9fa; border-bottom: 2px solid #eee; font-size: 13px; text-transform: uppercase; }
-        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; vertical-align: top; }
+        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; vertical-align: top; transition: background 0.3s ease; }
         
-        .cal-btn { background: #eee; border: none; padding: 5px 10px; border-radius: 5px; font-size: 11px; cursor: pointer; margin-top: 5px; display: block; font-weight: bold; }
-        .map-link { color: #0984e3; text-decoration: none; font-weight: bold; }
+        /* Row Glow Effect */
+        tr { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        tbody tr:hover { 
+            background-color: rgba(0, 184, 148, 0.05); /* Subtle accent-colored glow */
+            transform: scale(1.002);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            z-index: 5;
+            position: relative;
+        }
 
         .status-pill { padding: 4px 10px; border-radius: 15px; font-size: 11px; font-weight: bold; display: inline-block; text-transform: uppercase; }
         .status-COMPLETED { background: var(--completed); color: var(--completed-text); }
@@ -88,18 +182,25 @@
         .status-CANCELLED { background: var(--cancelled); color: var(--cancelled-text); }
         .status-RESCHEDULED { background: var(--rescheduled); color: var(--rescheduled-text); }
 
-        .update-card { background: white; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 4px solid var(--accent); }
-        .update-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .update-date { font-size: 0.85rem; font-weight: bold; color: #636e72; background: #f1f2f6; padding: 2px 8px; border-radius: 4px; }
+        .cal-btn { background: #eee; border: none; padding: 5px 10px; border-radius: 5px; font-size: 11px; cursor: pointer; margin-top: 5px; display: block; font-weight: bold; }
+        .map-link { color: #0984e3; text-decoration: none; font-weight: bold; }
 
+        /* Expect Grid */
         .intro-text { font-size: 1.1rem; line-height: 1.6; color: #444; margin-bottom: 25px; }
         .expect-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .expect-card { padding: 25px; background: #fff; border: 1px solid #eee; border-radius: 10px; }
         .expect-card h3 { color: var(--accent); margin-top: 0; display: flex; align-items: center; gap: 8px; }
         .action-item { background: #fff9db; padding: 10px; border-radius: 5px; border: 1px solid #f59f00; font-weight: bold; margin-top: 10px; }
 
+        /* Update Cards */
+        .update-card { background: white; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 4px solid var(--accent); }
+        .update-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .update-date { font-size: 0.85rem; font-weight: bold; color: #636e72; background: #f1f2f6; padding: 2px 8px; border-radius: 4px; }
+
+        /* Footer Watermark */
         .watermark { text-align: center; padding: 40px 0; color: #bdc3c7; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; }
 
+        /* Floating/Scroll Buttons */
         #backToTop {
             display: none; position: fixed; bottom: 20px; right: 20px; z-index: 99; border: none; background-color: var(--accent); color: white; cursor: pointer; padding: 15px; border-radius: 50%; width: 50px; height: 50px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
@@ -111,6 +212,7 @@
             table, thead, tbody, th, td, tr { display: block; }
             thead tr { position: absolute; top: -9999px; left: -9999px; }
             tr { border: 1px solid #ccc; margin-bottom: 20px; background: #fff; border-radius: 8px; }
+            tbody tr:hover { transform: none; box-shadow: none; } /* Disable scale on mobile */
             td { border: none; padding-left: 50% !important; position: relative; text-align: right; border-bottom: 1px solid #eee; min-height: 40px; }
             td:before { position: absolute; left: 10px; width: 45%; font-weight: bold; text-align: left; content: attr(data-label); color: var(--accent); }
         }
@@ -125,7 +227,9 @@
 <header>
     <h1 class="site-title">Run/Walk ATL</h1>
     <span class="site-subtitle">Paths & Purpose • 2026 Season</span>
+    
     <a href="https://chat.whatsapp.com/JFtmnTjtKkeCJiJJ7lO6Hl" class="whatsapp-btn" target="_blank">Join Run/Walk ATL</a>
+    
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="openTab(event, 'schedule')">The Schedule</button>
         <button class="tab-btn" onclick="openTab(event, 'updates')">Latest Season Updates</button>
@@ -140,6 +244,7 @@
 </div>
 
 <div class="container">
+    
     <section id="schedule" class="content-section active">
         <div class="weather-widget">
             <span class="weather-icon-span" style="font-size: 2rem;">☀️</span>
@@ -177,12 +282,14 @@
         <div class="intro-text">
             This schedule is designed to keep us moving, healthy, and consistent throughout the year. We have curated a mix of official races and relaxed nature walks to ensure there is something for everyone, regardless of fitness level.
         </div>
+
         <div class="expect-grid">
             <div class="expect-card">
                 <h3>🏁 Official Races (5Ks)</h3>
                 <p>We have selected one major race almost every month. These are fun, high-energy events.</p>
                 <div class="action-item">Action Item: Please use the provided links to register early before prices go up!</div>
             </div>
+            
             <div class="expect-card">
                 <h3>🌲 Group Hikes (Nature Walks)</h3>
                 <p>In the weeks between races, we meet for self-organized group hikes.</p>
@@ -191,15 +298,18 @@
                     <li><strong>No "Hiking" Experience Needed:</strong> If you can walk a 5K, you can do these hikes!</li>
                 </ul>
             </div>
+
             <div class="expect-card">
                 <h3>⏰ Timing</h3>
                 <p><strong>Hikes:</strong> Consistently scheduled for Saturdays at 10:00 AM.</p>
                 <p><strong>Races:</strong> Times vary (usually early Saturday or Sunday mornings).</p>
             </div>
+
             <div class="expect-card">
                 <h3>📍 Logistics</h3>
                 <p>Addresses for all locations are included in the table. Please check the group chat prior to "Hike Saturdays" for weather updates.</p>
             </div>
+
             <div class="expect-card">
                 <h3>📖 The "Gospel in a Nutshell" </h3>
                 <ul>
@@ -215,16 +325,42 @@
     <section id="community" class="content-section">
         <h2>💬 Join the Community</h2>
         <p class="intro-text">The WhatsApp group is the heart of Run/Walk ATL. Join us to stay motivated and informed!</p>
-        <div style="text-align: center; margin-top: 30px;">
-            <a href="https://chat.whatsapp.com/JFtmnTjtKkeCJiJJ7lO6Hl" class="whatsapp-btn" style="background:#25D366; padding: 18px 45px; font-size: 1.3rem;">Join WhatsApp Chat</a>
-            <div style="margin-top: 20px;">
-                <button onclick="shareSite()" style="background: var(--grad-start); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold;">📲 Invite a Friend</button>
+        
+        <div class="expect-grid">
+            <div class="expect-card">
+                <h3>🏃‍♂️ Pace Guide</h3>
+                <p>We believe no one should be left behind. Here is how we label our events:</p>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;"><span class="pace-badge pace-beginner">Beginner</span> Casual stroll, 20+ min/mile. Great for talking!</li>
+                    <li style="margin-bottom: 10px;"><span class="pace-badge pace-moderate">Moderate</span> Brisk walking, 15-18 min/mile.</li>
+                    <li style="margin-bottom: 10px;"><span class="pace-badge pace-active">Active</span> Jogging or fast hiking, sub-12 min/mile.</li>
+                </ul>
+            </div>
+            
+            <div class="expect-card">
+                <h3>🙌 Community Rules</h3>
+                <ul style="padding-left: 20px;">
+                    <li>No judgment zone—all fitness levels welcome.</li>
+                    <li>Stay hydrated and bring a friend!</li>
+                    <li>RSVP in WhatsApp so we know to wait for you.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding: 40px; background: white; border-radius: 12px; border: 1px solid #eee; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <h3 style="margin-top:0; margin-bottom:20px;">Ready to hit the trails?</h3>
+            <a href="https://chat.whatsapp.com/JFtmnTjtKkeCJiJJ7lO6Hl" class="whatsapp-btn-main" target="_blank">Join WhatsApp Chat</a>
+            <div style="margin-top: 25px;">
+                <button onclick="shareSite()" class="invite-btn-secondary">📲 Invite a Friend</button>
             </div>
         </div>
     </section>
+
 </div>
 
-<div class="watermark">Run/Walk ATL • 2026 • Atlanta, GA</div>
+<div class="watermark">
+    Run/Walk ATL • 2026 • Atlanta, GA
+</div>
 
 <script>
     const events = [
@@ -274,7 +410,9 @@
     function parseDate(dateStr) {
         const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         const [monthPart, dayPart] = dateStr.split(' ');
-        return new Date(2026, monthNames.indexOf(monthPart), parseInt(dayPart) || 1);
+        const month = monthNames.indexOf(monthPart);
+        const day = parseInt(dayPart) || 1;
+        return new Date(2026, month, day);
     }
 
     function downloadICS(title, dateStr, location, notes) {
